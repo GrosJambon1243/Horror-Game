@@ -68,13 +68,9 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 		if (GetWorld()->LineTraceSingleByObjectType(Hit,Start,End,QueryParams,Params))
 		{
 			HitActor = Hit.GetActor();
-			if (IsValid(HitActor))
+			if (IsValid(HitActor) && HitActor->Implements<UPickupInterface>())
 			{
 				PlayerUi->SetPromptE(true);
-				if (HitActor->Implements<UPickupInterface>())
-				{
-					
-				}
 			}
 		}
 		else
