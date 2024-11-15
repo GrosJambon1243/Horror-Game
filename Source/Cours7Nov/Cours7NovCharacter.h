@@ -39,6 +39,8 @@ class ACours7NovCharacter : public ACharacter
 	UInputAction* MoveAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* PauseAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* PickUpAction;
 	
 public:
 	ACours7NovCharacter();
@@ -61,6 +63,7 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 	void PauseGame();
+	void PickupFunction();
 
 protected:
 	// APawn interface
@@ -75,7 +78,8 @@ public:
 private:
 	bool isInspecting = false;
 	class UMyPlayerUi* PlayerUi;
-	
+	FHitResult Hit;
+	AActor* HitActor;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> PlayerWidgetClass;

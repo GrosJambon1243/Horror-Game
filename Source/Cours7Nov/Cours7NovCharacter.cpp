@@ -56,7 +56,7 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	if (!isInspecting)
 	{
-		FHitResult Hit;
+		
 		FVector Start = FirstPersonCameraComponent->GetComponentLocation();
 		FVector End = Start + FirstPersonCameraComponent->GetForwardVector() * 5000.f;
 		FCollisionObjectQueryParams QueryParams;
@@ -67,7 +67,7 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 
 		if (GetWorld()->LineTraceSingleByObjectType(Hit,Start,End,QueryParams,Params))
 		{
-			auto HitActor = Hit.GetActor();
+			HitActor = Hit.GetActor();
 			if (IsValid(HitActor))
 			{
 				PlayerUi->SetPromptE(true);
@@ -80,6 +80,7 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 		else
 		{
 			PlayerUi->SetPromptE(false);
+			HitActor = nullptr;
 		}
 	}
 }
@@ -103,6 +104,9 @@ void ACours7NovCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 		//Pause Game
 		EnhancedInputComponent->BindAction(PauseAction,ETriggerEvent::Triggered,this, &ACours7NovCharacter::PauseGame);
+
+		//Pick Up Object
+		EnhancedInputComponent->BindAction(PickUpAction,ETriggerEvent::Triggered,this, &ACours7NovCharacter::PickupFunction);
 	}
 	else
 	{
@@ -149,4 +153,12 @@ void ACours7NovCharacter::PauseGame()
 		UGameplayStatics::SetGamePaused(GetWorld(),true);
 	}
 	
+}
+
+void ACours7NovCharacter::PickupFunction()
+{
+	if (IsValid(HitActor))
+	{
+		GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("Pick Up!"));
+	}
 }
