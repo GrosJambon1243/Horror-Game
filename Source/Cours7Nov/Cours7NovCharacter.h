@@ -78,11 +78,14 @@ public:
 private:
 	bool isInspecting = false;
 	class UMyPlayerUi* PlayerUi;
+	class UPauseMenu* PauseUi;
 	FHitResult Hit;
 	AActor* HitActor;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> PlayerWidgetClass;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> PauseMenuWidgetClass;
 
 	
 	

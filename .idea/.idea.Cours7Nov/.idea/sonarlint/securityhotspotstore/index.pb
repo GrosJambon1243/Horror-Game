@@ -23,3 +23,11 @@ T
 $Source/Cours7Nov/Cours7NovGameMode.h,8\f\8f2da12113a38c0a7cd794d1ea8a81b5c060f6d4
 V
 &Source/Cours7Nov/Cours7NovGameMode.cpp,f\1\f10d6b9e14f574ca5a95804e5c02f76fc3c74c13
+V
+&Source/Cours7Nov/Public/DialogueData.h,f\2\f26f78e3d25ec98746ea940425877882c9144d68
+Ž
+^Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Engine/Classes/GameFramework/Character.h,d\5\d5b8880e1f8e339bb8781591b5f5a5b37b6ea21e
+T
+$Source/Cours7Nov/Private/PauseMenu.h,5\9\5980d7efe207d9825466afa11cfb7790497e770e
+V
+&Source/Cours7Nov/Private/PauseMenu.cpp,5\2\5241407814cc908b509faa0bd2b0b7bb1a922ff9

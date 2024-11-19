@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PickupInterface.h"
 #include "GameFramework/Actor.h"
 #include "Prison_Door.generated.h"
 
 UCLASS()
-class APrison_Door : public AActor
+class APrison_Door : public AActor, public IPickupInterface
 {
 	GENERATED_BODY()
 	

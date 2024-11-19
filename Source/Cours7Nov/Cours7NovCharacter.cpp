@@ -14,6 +14,7 @@
 #include "Engine/LocalPlayer.h"
 #include "Kismet/GameplayStatics.h"
 #include "PickupInterface.h"
+#include "PauseMenu.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -49,6 +50,12 @@ void ACours7NovCharacter::BeginPlay()
 	auto UserWidget = CreateWidget<UUserWidget>(GetWorld(),PlayerWidgetClass);
 	PlayerUi = Cast<UMyPlayerUi>(UserWidget);
 	PlayerUi -> AddToViewport();
+
+	auto PauseMenu = CreateWidget<UUserWidget>(GetWorld(),PauseMenuWidgetClass);
+	PauseUi = Cast<UPauseMenu>(PauseMenu);
+	PauseUi -> AddToViewport();
+	
+	PauseUi->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void ACours7NovCharacter::Tick(float DeltaSeconds)
@@ -143,10 +150,15 @@ void ACours7NovCharacter::PauseGame()
 	if (GetWorld()->IsPaused())
 	{
 		UGameplayStatics::SetGamePaused(GetWorld(),false);
+		PauseUi->SetVisibility(ESlateVisibility::Hidden);
+		GetLocalViewingPlayerController()->SetShowMouseCursor(false);
 	}
 	else
 	{
 		UGameplayStatics::SetGamePaused(GetWorld(),true);
+		PauseUi->SetVisibility(ESlateVisibility::Visible);
+		GetLocalViewingPlayerController()->SetShowMouseCursor(true);
+		
 	}
 	
 }
