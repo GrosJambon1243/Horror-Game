@@ -9,6 +9,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "LockUi.h"
 #include "MyPlayerUi.h"
 #include "Blueprint/UserWidget.h"
 #include "Engine/LocalPlayer.h"
@@ -40,6 +41,8 @@ ACours7NovCharacter::ACours7NovCharacter()
 	Mesh1P->CastShadow = false;
 	//Mesh1P->SetRelativeRotation(FRotator(0.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
+	AttachPoint = CreateDefaultSubobject<USceneComponent>("Attach Point");
+	AttachPoint->SetupAttachment(GetCapsuleComponent());
 
 }
 
@@ -54,6 +57,11 @@ void ACours7NovCharacter::BeginPlay()
 	auto PauseMenu = CreateWidget<UUserWidget>(GetWorld(),PauseMenuWidgetClass);
 	PauseUi = Cast<UPauseMenu>(PauseMenu);
 	PauseUi -> AddToViewport();
+
+	auto LockWidget = CreateWidget(GetWorld(),LockUiWidgetClass);
+	LockUi = Cast<ULockUi>(LockWidget);
+	LockUi -> AddToViewport();
+	LockUi->SetVisibility(ESlateVisibility::Hidden);
 	
 	PauseUi->SetVisibility(ESlateVisibility::Hidden);
 }
@@ -123,7 +131,7 @@ void ACours7NovCharacter::Move(const FInputActionValue& Value)
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
-	if (Controller != nullptr)
+	if (Controller != nullptr && !isSolving)
 	{
 		// add movement 
 		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
@@ -136,7 +144,7 @@ void ACours7NovCharacter::Look(const FInputActionValue& Value)
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
-	if (Controller != nullptr)
+	if (Controller != nullptr&& !isSolving)
 	{
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
@@ -165,8 +173,22 @@ void ACours7NovCharacter::PauseGame()
 
 void ACours7NovCharacter::PickupFunction()
 {
-	if (IsValid(HitActor))
+	switch (isSolving)
 	{
-		GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("Pick Up!"));
+	case false:
+		if (IsValid(HitActor)&&HitActor->GetName() == "BP_NUmLock_C_UAID_7C10C92358ABED3202_1186069007")
+		{
+			LockUi->SetVisibility(ESlateVisibility::Visible);
+			isSolving = true;
+			GetLocalViewingPlayerController()->SetShowMouseCursor(true);
+		}
+		break;
+	case true:
+		LockUi->SetVisibility(ESlateVisibility::Hidden);
+		isSolving = false;
+		GetLocalViewingPlayerController()->SetShowMouseCursor(false);
+		break;
+	
 	}
+	
 }

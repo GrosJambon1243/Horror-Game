@@ -11,8 +11,11 @@ APrison_Door::APrison_Door()
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneComp");
 	RootComponent = SceneRoot;
 
+	RotatingPoint = CreateDefaultSubobject<USceneComponent>("Rotating Point");
+	RotatingPoint->SetupAttachment(SceneRoot);
+
 	Door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DoorComp"));
-	Door-> SetupAttachment(SceneRoot);
+	Door-> SetupAttachment(RotatingPoint);
 
 	Hinge1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Hinge1"));
 	Hinge1 -> SetupAttachment(Door);

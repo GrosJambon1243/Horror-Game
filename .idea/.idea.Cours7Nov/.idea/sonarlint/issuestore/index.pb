@@ -25,9 +25,25 @@ V
 &Source/Cours7Nov/Cours7NovGameMode.cpp,f\1\f10d6b9e14f574ca5a95804e5c02f76fc3c74c13
 V
 &Source/Cours7Nov/Public/DialogueData.h,f\2\f26f78e3d25ec98746ea940425877882c9144d68
-Ž
-^Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Engine/Classes/GameFramework/Character.h,d\5\d5b8880e1f8e339bb8781591b5f5a5b37b6ea21e
 T
 $Source/Cours7Nov/Private/PauseMenu.h,5\9\5980d7efe207d9825466afa11cfb7790497e770e
 V
 &Source/Cours7Nov/Private/PauseMenu.cpp,5\2\5241407814cc908b509faa0bd2b0b7bb1a922ff9
+U
+%Source/Cours7Nov/Private/PlayerUi.cpp,5\2\52f47442b28a19142479e381ad0c35a3f019d211
+S
+#Source/Cours7Nov/Private/PlayerUi.h,0\0\007de23fb2fb6861c26956feb4c1b7a2821ce4c4
+R
+"Source/Cours7Nov/Private/NumLock.h,9\8\9808657e53781294935bd0ca13616003e5985899
+T
+$Source/Cours7Nov/Private/NumLock.cpp,8\1\81cfc7a99dc8f454331906c884af54ba0ec849c1
+Q
+!Source/Cours7Nov/Private/LockUi.h,9\2\92fe9fe990081ad80013a1a80dcce715cdf5ade5
+J
+Source/Cours7Nov.Target.cs,2\8\2862456eeb6ff35efe26f877a3e75476634d0202
+P
+ Source/Cours7NovEditor.Target.cs,b\1\b1cf59e901af397439eb58a2bf02b6128b5e4994
+S
+#Source/Cours7Nov/Cours7Nov.Build.cs,1\d\1d30190fa54047a4bc91580045d6fac1fa25ffa4
+S
+#Source/Cours7Nov/Private/LockUi.cpp,8\b\8b31cf90351d0c1ad15297d91280238dbc0e2804

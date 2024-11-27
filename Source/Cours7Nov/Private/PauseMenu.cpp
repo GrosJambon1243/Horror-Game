@@ -34,5 +34,7 @@ void UPauseMenu::OnSliderValueChanged(float value)
 void UPauseMenu::OnClicked()
 {
 	UGameplayStatics::SetGamePaused(GetWorld(),false);
+	this->SetVisibility(ESlateVisibility::Hidden);
+	GetOwningPlayer()->SetShowMouseCursor(false);
 	UE_LOG(LogTemp, Warning, TEXT("Continue"));
 }

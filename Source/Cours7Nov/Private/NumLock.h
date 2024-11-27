@@ -3,18 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NativeGameplayTags.h"
 #include "PickupInterface.h"
 #include "GameFramework/Actor.h"
-#include "Prison_Door.generated.h"
+#include "NumLock.generated.h"
 
 UCLASS()
-class APrison_Door : public AActor, public IPickupInterface
+class ANumLock : public AActor, public IPickupInterface
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	APrison_Door();
+	ANumLock();
 
 protected:
 	// Called when the game starts or when spawned
@@ -23,17 +24,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-private:
-	UPROPERTY(VisibleAnywhere)
-	USceneComponent* SceneRoot;
-	UPROPERTY(VisibleAnywhere)
-	USceneComponent* RotatingPoint;
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* Door;
-	UPROPERTY(VisibleAnywhere);
-	UStaticMeshComponent* Hinge1;
-	UPROPERTY(VisibleAnywhere);
-	UStaticMeshComponent* Hinge2;
+	
+	
 	
 
 };

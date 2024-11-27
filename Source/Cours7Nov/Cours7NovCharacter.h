@@ -77,15 +77,22 @@ public:
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 private:
 	bool isInspecting = false;
+	bool isSolving = false;
 	class UMyPlayerUi* PlayerUi;
 	class UPauseMenu* PauseUi;
+	class ULockUi* LockUi;
 	FHitResult Hit;
 	AActor* HitActor;
+
+	UPROPERTY(EditAnywhere)
+	USceneComponent* AttachPoint;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> PlayerWidgetClass;
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> PauseMenuWidgetClass;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> LockUiWidgetClass;
 
 	
 	
