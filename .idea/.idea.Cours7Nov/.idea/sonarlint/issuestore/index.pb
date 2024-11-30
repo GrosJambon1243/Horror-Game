@@ -47,3 +47,7 @@ S
 #Source/Cours7Nov/Cours7Nov.Build.cs,1\d\1d30190fa54047a4bc91580045d6fac1fa25ffa4
 S
 #Source/Cours7Nov/Private/LockUi.cpp,8\b\8b31cf90351d0c1ad15297d91280238dbc0e2804
+S
+#Source/Cours7Nov/Private/MainMenu.h,8\1\81207cc36d78229b2a2f88879d588036797bc345
+U
+%Source/Cours7Nov/Private/MainMenu.cpp,f\6\f619177c2b76aa5cccf36650f69d127bf21715ef

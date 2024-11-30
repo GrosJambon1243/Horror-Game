@@ -81,6 +81,7 @@ private:
 	class UMyPlayerUi* PlayerUi;
 	class UPauseMenu* PauseUi;
 	class ULockUi* LockUi;
+	class UMainMenu* MainMenuUi;
 	FHitResult Hit;
 	AActor* HitActor;
 
@@ -93,6 +94,8 @@ private:
 	TSubclassOf<UUserWidget> PauseMenuWidgetClass;
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> LockUiWidgetClass;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> MainMenuWidgetClass;
 
 	
 	

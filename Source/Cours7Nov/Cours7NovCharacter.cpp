@@ -10,6 +10,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "LockUi.h"
+#include "MainMenu.h"
 #include "MyPlayerUi.h"
 #include "Blueprint/UserWidget.h"
 #include "Engine/LocalPlayer.h"
@@ -57,13 +58,20 @@ void ACours7NovCharacter::BeginPlay()
 	auto PauseMenu = CreateWidget<UUserWidget>(GetWorld(),PauseMenuWidgetClass);
 	PauseUi = Cast<UPauseMenu>(PauseMenu);
 	PauseUi -> AddToViewport();
-
+	PauseUi->SetVisibility(ESlateVisibility::Hidden);
+	
 	auto LockWidget = CreateWidget(GetWorld(),LockUiWidgetClass);
 	LockUi = Cast<ULockUi>(LockWidget);
 	LockUi -> AddToViewport();
 	LockUi->SetVisibility(ESlateVisibility::Hidden);
-	
-	PauseUi->SetVisibility(ESlateVisibility::Hidden);
+
+	auto MainMenuWidget = CreateWidget(GetWorld(),MainMenuWidgetClass);
+	MainMenuUi = Cast<UMainMenu>(MainMenuWidget);
+	MainMenuUi->AddToViewport();
+
+	//Uncomment pour test le main menu
+	//UGameplayStatics::SetGamePaused(GetWorld(),true);
+	//GetLocalViewingPlayerController()->SetShowMouseCursor(true);
 }
 
 void ACours7NovCharacter::Tick(float DeltaSeconds)
