@@ -39,8 +39,9 @@ void APrison_Door::Tick(float DeltaTime)
 
 }
 
-bool APrison_Door::isPickable()
+void APrison_Door::OpenDoor(float Rotate) const
 {
-	return false;
+	RotatingPoint->SetWorldRotation(FRotator (0,Rotate,0),true);
 }
+
 

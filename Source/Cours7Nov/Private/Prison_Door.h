@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Openable.h"
 #include "PickupInterface.h"
 #include "GameFramework/Actor.h"
 #include "Prison_Door.generated.h"
 
 UCLASS()
-class APrison_Door : public AActor, public IPickupInterface
+class APrison_Door : public AActor, public IOpenable
 {
 	GENERATED_BODY()
 	
@@ -23,7 +24,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	virtual bool isPickable() override;
+	void OpenDoor(float Rotate) const;
+	
 private:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* SceneRoot;
@@ -35,6 +37,8 @@ private:
 	UStaticMeshComponent* Hinge1;
 	UPROPERTY(VisibleAnywhere);
 	UStaticMeshComponent* Hinge2;
+
+	
 	
 
 };

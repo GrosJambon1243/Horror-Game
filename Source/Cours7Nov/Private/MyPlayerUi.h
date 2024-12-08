@@ -16,7 +16,7 @@ class UMyPlayerUi : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)
-	void SetPromptE(bool visible);
+	void SetPromptE(bool visible, FString const& Text);
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void ModifyPrompt(int text);

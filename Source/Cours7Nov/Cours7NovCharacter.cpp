@@ -19,6 +19,7 @@
 #include "PauseMenu.h"
 #include "Prison_Key.h"
 #include "Prison_Door.h"
+#include "Carpet.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -69,6 +70,8 @@ void ACours7NovCharacter::BeginPlay()
 
 	auto MainMenuWidget = CreateWidget(GetWorld(),MainMenuWidgetClass);
 	MainMenuUi = Cast<UMainMenu>(MainMenuWidget);
+
+	key = nullptr;
 	
 	//MainMenuUi->AddToViewport();
 
@@ -86,7 +89,7 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 	{
 		
 		FVector Start = FirstPersonCameraComponent->GetComponentLocation();
-		FVector End = Start + FirstPersonCameraComponent->GetForwardVector() * 200.f;
+		FVector End = Start + FirstPersonCameraComponent->GetForwardVector() * 300.f;
 		FCollisionObjectQueryParams QueryParams;
 		QueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
 
@@ -98,12 +101,20 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 			HitActor = Hit.GetActor();
 			if (IsValid(HitActor) && HitActor->Implements<UPickupInterface>())
 			{
-				PlayerUi->SetPromptE(true);
+				PlayerUi->SetPromptE(true,"Press E To Pick Up");
+			}
+			if (IsValid(HitActor) && HitActor->Implements<UOpenable>())
+			{
+				PlayerUi->SetPromptE(true,"Press E To Open");
+			}
+			if (IsValid(HitActor) && Cast<ACarpet>(HitActor))
+			{
+				PlayerUi->SetPromptE(true,"Press E To Remove");
 			}
 		}
 		else
 		{
-			PlayerUi->SetPromptE(false);
+			PlayerUi->SetPromptE(false,"");
 			HitActor = nullptr;
 		}
 	}
@@ -188,6 +199,7 @@ void ACours7NovCharacter::PauseGame()
 
 void ACours7NovCharacter::PickupFunction()
 {
+	
 	switch (isSolving)
 	{
 	case false:
@@ -208,15 +220,21 @@ void ACours7NovCharacter::PickupFunction()
 	if (IsValid(HitActor) && Cast<APrison_Key>(HitActor))
 	{
 		const auto attach = FAttachmentTransformRules::SnapToTargetIncludingScale;
-		HitActor->AttachToComponent(AttachPoint,attach);
+		key = HitActor;
+		key->AttachToComponent(AttachPoint,attach);
 		hasKey = true;
 		UE_LOG(LogTemp, Warning, TEXT("Key PickUp"));
 	}
 	if (IsValid(HitActor) && Cast<APrison_Door>(HitActor) && hasKey)
 	{
-		
+		Cast<APrison_Door>(HitActor)->OpenDoor(70);
+		key->Destroy();
 		hasKey = false;
 		UE_LOG(LogTemp, Warning, TEXT("Door open"));
+	}
+	if (IsValid(HitActor) && Cast<ACarpet>(HitActor))
+	{
+		HitActor->Destroy();
 	}
 	
 }
@@ -234,9 +252,11 @@ void ACours7NovCharacter::ChangeViewFunction()
 	}
 	if (FirstPersonCameraComponent && isChangeView == true)
 	{
-		
+		UE::Math::TVector4<double> vector(0.9f,0.9f,0.9f,0.9f);
 		FirstPersonCameraComponent->PostProcessSettings.bOverride_FilmGrainIntensity = true;
 		FirstPersonCameraComponent->PostProcessSettings.bOverride_SceneFringeIntensity = true;
+		FirstPersonCameraComponent->PostProcessSettings.bOverride_ColorContrast = true;
+		FirstPersonCameraComponent->PostProcessSettings.ColorContrast = vector;
 		FirstPersonCameraComponent->PostProcessSettings.FilmGrainIntensity = 1.0f;
 		FirstPersonCameraComponent->PostProcessSettings.SceneFringeIntensity = 3.0f;
 		
@@ -248,6 +268,7 @@ void ACours7NovCharacter::ChangeViewFunction()
 	{
 		FirstPersonCameraComponent->PostProcessSettings.FilmGrainIntensity = 0.0f;
 		FirstPersonCameraComponent->PostProcessSettings.SceneFringeIntensity = 0.0f;
+		FirstPersonCameraComponent->PostProcessSettings.ColorContrast = UE::Math::TVector4<double>(1.0f,1.0f,1.0f,1.0f);
 	}
 
 }

@@ -89,6 +89,7 @@ private:
 	class UMainMenu* MainMenuUi;
 	FHitResult Hit;
 	AActor* HitActor;
+	AActor* key;
 
 	UPROPERTY(EditAnywhere)
 	USceneComponent* AttachPoint;
