@@ -39,3 +39,8 @@ void APrison_Door::Tick(float DeltaTime)
 
 }
 
+bool APrison_Door::isPickable()
+{
+	return false;
+}
+

@@ -41,6 +41,8 @@ class ACours7NovCharacter : public ACharacter
 	UInputAction* PauseAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* PickUpAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* ChangeView;
 	
 public:
 	ACours7NovCharacter();
@@ -64,6 +66,7 @@ protected:
 
 	void PauseGame();
 	void PickupFunction();
+	void ChangeViewFunction();
 
 protected:
 	// APawn interface
@@ -78,6 +81,8 @@ public:
 private:
 	bool isInspecting = false;
 	bool isSolving = false;
+	bool isChangeView = false;
+	bool hasKey = false;
 	class UMyPlayerUi* PlayerUi;
 	class UPauseMenu* PauseUi;
 	class ULockUi* LockUi;

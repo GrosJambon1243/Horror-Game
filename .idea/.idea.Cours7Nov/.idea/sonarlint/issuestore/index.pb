@@ -51,3 +51,9 @@ S
 #Source/Cours7Nov/Private/MainMenu.h,8\1\81207cc36d78229b2a2f88879d588036797bc345
 U
 %Source/Cours7Nov/Private/MainMenu.cpp,f\6\f619177c2b76aa5cccf36650f69d127bf21715ef
+\
+,Source/Cours7Nov/Private/PickupInterface.cpp,3\2\3239a0c3fa3744f49c9edd9a84ee3ec6f0a10f76
+Z
+*Source/Cours7Nov/Private/PickupInterface.h,9\d\9d585ef79b9dd12c4c36ac9db402f054cda68786
+L
+Source/Cours7Nov/Cours7Nov.h,3\e\3e7088179b80189e7fcab7c8678f3cd3764339d0

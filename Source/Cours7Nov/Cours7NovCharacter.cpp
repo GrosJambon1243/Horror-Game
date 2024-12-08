@@ -17,6 +17,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "PickupInterface.h"
 #include "PauseMenu.h"
+#include "Prison_Key.h"
+#include "Prison_Door.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -67,11 +69,14 @@ void ACours7NovCharacter::BeginPlay()
 
 	auto MainMenuWidget = CreateWidget(GetWorld(),MainMenuWidgetClass);
 	MainMenuUi = Cast<UMainMenu>(MainMenuWidget);
-	MainMenuUi->AddToViewport();
+	
+	//MainMenuUi->AddToViewport();
 
 	//Uncomment pour test le main menu
 	//UGameplayStatics::SetGamePaused(GetWorld(),true);
 	//GetLocalViewingPlayerController()->SetShowMouseCursor(true);
+
+	
 }
 
 void ACours7NovCharacter::Tick(float DeltaSeconds)
@@ -81,7 +86,7 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 	{
 		
 		FVector Start = FirstPersonCameraComponent->GetComponentLocation();
-		FVector End = Start + FirstPersonCameraComponent->GetForwardVector() * 5000.f;
+		FVector End = Start + FirstPersonCameraComponent->GetForwardVector() * 200.f;
 		FCollisionObjectQueryParams QueryParams;
 		QueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
 
@@ -126,6 +131,8 @@ void ACours7NovCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 		//Pick Up Object
 		EnhancedInputComponent->BindAction(PickUpAction,ETriggerEvent::Triggered,this, &ACours7NovCharacter::PickupFunction);
+		//Change View
+		EnhancedInputComponent->BindAction(ChangeView,ETriggerEvent::Triggered,this, &ACours7NovCharacter::ChangeViewFunction);
 	}
 	else
 	{
@@ -198,5 +205,49 @@ void ACours7NovCharacter::PickupFunction()
 		break;
 	
 	}
+	if (IsValid(HitActor) && Cast<APrison_Key>(HitActor))
+	{
+		const auto attach = FAttachmentTransformRules::SnapToTargetIncludingScale;
+		HitActor->AttachToComponent(AttachPoint,attach);
+		hasKey = true;
+		UE_LOG(LogTemp, Warning, TEXT("Key PickUp"));
+	}
+	if (IsValid(HitActor) && Cast<APrison_Door>(HitActor) && hasKey)
+	{
+		
+		hasKey = false;
+		UE_LOG(LogTemp, Warning, TEXT("Door open"));
+	}
 	
+}
+
+void ACours7NovCharacter::ChangeViewFunction()
+{
+	GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("View Changed"));
+	if (isChangeView)
+	{
+		isChangeView = false;
+	}
+	else
+	{
+		isChangeView = true;
+	}
+	if (FirstPersonCameraComponent && isChangeView == true)
+	{
+		
+		FirstPersonCameraComponent->PostProcessSettings.bOverride_FilmGrainIntensity = true;
+		FirstPersonCameraComponent->PostProcessSettings.bOverride_SceneFringeIntensity = true;
+		FirstPersonCameraComponent->PostProcessSettings.FilmGrainIntensity = 1.0f;
+		FirstPersonCameraComponent->PostProcessSettings.SceneFringeIntensity = 3.0f;
+		
+		
+		FirstPersonCameraComponent->PostProcessBlendWeight = 1.0f;
+
+		UE_LOG(LogTemp, Warning, TEXT("Post-process settings applied to camera."));
+	}else if (isChangeView == false)
+	{
+		FirstPersonCameraComponent->PostProcessSettings.FilmGrainIntensity = 0.0f;
+		FirstPersonCameraComponent->PostProcessSettings.SceneFringeIntensity = 0.0f;
+	}
+
 }
