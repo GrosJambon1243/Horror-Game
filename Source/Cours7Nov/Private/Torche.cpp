@@ -8,7 +8,17 @@ ATorche::ATorche()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneComp");
+	RootComponent = SceneRoot;
 
+	TorcheBody = CreateDefaultSubobject<UStaticMeshComponent>("Body");
+	TorcheBody->SetupAttachment(SceneRoot);
+
+	Light = CreateDefaultSubobject<UPointLightComponent>("Light");
+	Light->SetupAttachment(TorcheBody);
+
+	Fire = CreateDefaultSubobject<UNiagaraComponent>("Fire");
+	Fire -> SetupAttachment(TorcheBody);
 }
 
 // Called when the game starts or when spawned

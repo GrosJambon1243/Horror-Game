@@ -111,6 +111,7 @@ private:
 	AActor* CurrentInspectingActor;
 
 	FTransform InitialInspectTrans;
+	FTransform InitialPlayerPos;
 	
 
 	UPROPERTY(EditAnywhere)

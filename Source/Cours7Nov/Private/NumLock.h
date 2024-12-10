@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "NativeGameplayTags.h"
 #include "PickupInterface.h"
+#include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
 #include "NumLock.generated.h"
 
@@ -24,7 +25,12 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
+	UPROPERTY(VisibleAnywhere)
+	USceneComponent* SceneRoot;
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* Chest;
+	UPROPERTY(VisibleAnywhere)
+	UBoxComponent* Collision;
 	
 	
 

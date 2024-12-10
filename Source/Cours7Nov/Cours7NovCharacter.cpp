@@ -80,7 +80,7 @@ void ACours7NovCharacter::BeginPlay()
 	IntroWidgetUi = Cast<UGameIntro>(IntroWidget);
 	IntroWidgetUi ->AddToViewport();
 	
-
+	InitialPlayerPos = AttachPoint->GetComponentTransform();
 	key = nullptr;
 	
 	//MainMenuUi->AddToViewport();
@@ -112,7 +112,7 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 			HitActor = Hit.GetActor();
 			if (IsValid(HitActor) && HitActor->Implements<UPickupInterface>())
 			{
-				PlayerUi->SetPromptE(true,"Press E To Pick Up");
+				PlayerUi->SetPromptE(true,"Press E To Interact");
 			}
 			if (IsValid(HitActor) && HitActor->Implements<UOpenable>())
 			{
@@ -135,6 +135,11 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 			HitActor = nullptr;
 			CurrentInspectingActor = nullptr;
 		}
+	}
+	if (AttachPoint->GetComponentTransform().GetLocation().Z <= -50 )
+	{
+		this->SetActorTransform(InitialPlayerPos,false,nullptr,ETeleportType::TeleportPhysics);
+		UE_LOG(LogTemp, Warning, TEXT("Falling"));
 	}
 }
 
@@ -274,6 +279,7 @@ void ACours7NovCharacter::PickupFunction()
 	}
 	if (!isInspecting && CurrentInspectingActor)
 	{
+		InitialPlayerPos = AttachPoint->GetComponentTransform();
 		isInspecting = true;
 		PlayerUi->SetPromptE(false,"");
 		InspectPoint->SetRelativeRotation(FRotator::ZeroRotator);

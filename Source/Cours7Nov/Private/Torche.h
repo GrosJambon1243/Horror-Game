@@ -3,8 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/PointLightComponent.h"
 #include "GameFramework/Actor.h"
+#include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Torche.generated.h"
+
 
 UCLASS()
 class ATorche : public AActor
@@ -22,5 +26,14 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(VisibleAnywhere)
+	USceneComponent* SceneRoot;
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* TorcheBody;
+	UPROPERTY(VisibleAnywhere)
+	UPointLightComponent* Light;
+	UPROPERTY(VisibleAnywhere)
+	UNiagaraComponent* Fire;
 
 };
