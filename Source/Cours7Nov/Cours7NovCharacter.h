@@ -98,7 +98,6 @@ public:
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 private:
 	bool isInspecting = false;
-	bool isChangeView = false;
 	bool hasKey = false;
 
 	class UMyPlayerUi* PlayerUi;
@@ -132,6 +131,7 @@ private:
 
 public:
 	void RemoveIntro();
+	bool isChangeView = false;
 	
 
 };

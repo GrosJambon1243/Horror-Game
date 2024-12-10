@@ -3,6 +3,9 @@
 
 #include "Skull.h"
 
+#include "Components/SlateWrapperTypes.h"
+#include "Kismet/GameplayStatics.h"
+
 // Sets default values
 ASkull::ASkull()
 {
@@ -17,6 +20,8 @@ ASkull::ASkull()
 	Number = CreateDefaultSubobject<UTextRenderComponent>("Number");
 	Number->SetupAttachment(Skull);
 
+	
+
 }
 
 // Called when the game starts or when spawned
@@ -30,6 +35,10 @@ void ASkull::BeginPlay()
 void ASkull::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
 
+void ASkull::SetIsVisible(bool visible)
+{
+	Number->SetVisibility(visible);
 }
 

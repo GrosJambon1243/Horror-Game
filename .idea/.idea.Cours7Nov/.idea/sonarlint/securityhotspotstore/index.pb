@@ -67,3 +67,7 @@ R
 "Source/Cours7Nov/Private/Skull.cpp,3\d\3d3b817c1341a89ec6c5f75ff74b1b994d4b6a3a
 T
 $Source/Cours7Nov/Private/GameIntro.h,3\5\35cf50d7895adb29f46cce248bba4e3391177832
+W
+'Source/Cours7Nov/Private/MusicManager.h,8\4\8477e55e503e2cc45e758bacf26ff38f23599a1a
+Y
+)Source/Cours7Nov/Private/MusicManager.cpp,6\5\656bef634a51367613ddba456a4aab326179eadc

@@ -279,6 +279,7 @@ void ACours7NovCharacter::PickupFunction()
 		InspectPoint->SetRelativeRotation(FRotator::ZeroRotator);
 		InitialInspectTrans = CurrentInspectingActor->GetActorTransform();
 		CurrentInspectingActor->AttachToComponent(InspectPoint,FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+		Cast<ASkull>(CurrentInspectingActor)->SetIsVisible(isChangeView);
 
 		//Changement Context
 		const auto PlayerController = Cast<APlayerController>(GetController());

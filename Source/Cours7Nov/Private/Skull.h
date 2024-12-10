@@ -33,8 +33,7 @@ public:
 	UCapsuleComponent* Collider;
 	UPROPERTY(VisibleAnywhere)
 	UTextRenderComponent* Number;
-	
-	UPROPERTY(EditAnywhere)
-	FText NumberValue;
+
+	void SetIsVisible(bool visible);
 
 };
