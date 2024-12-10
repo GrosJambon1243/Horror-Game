@@ -20,6 +20,8 @@
 #include "Prison_Key.h"
 #include "Prison_Door.h"
 #include "Carpet.h"
+#include "GameIntro.h"
+#include "Skull.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -48,6 +50,9 @@ ACours7NovCharacter::ACours7NovCharacter()
 	AttachPoint = CreateDefaultSubobject<USceneComponent>("Attach Point");
 	AttachPoint->SetupAttachment(GetCapsuleComponent());
 
+	InspectPoint = CreateDefaultSubobject<USceneComponent>("InspectPoint");
+	InspectPoint->SetupAttachment(FirstPersonCameraComponent);
+
 }
 
 void ACours7NovCharacter::BeginPlay()
@@ -71,13 +76,18 @@ void ACours7NovCharacter::BeginPlay()
 	auto MainMenuWidget = CreateWidget(GetWorld(),MainMenuWidgetClass);
 	MainMenuUi = Cast<UMainMenu>(MainMenuWidget);
 
+	auto IntroWidget = CreateWidget(GetWorld(),IntroWidgetClass);
+	IntroWidgetUi = Cast<UGameIntro>(IntroWidget);
+	IntroWidgetUi ->AddToViewport();
+	
+
 	key = nullptr;
 	
 	//MainMenuUi->AddToViewport();
 
 	//Uncomment pour test le main menu
-	//UGameplayStatics::SetGamePaused(GetWorld(),true);
-	//GetLocalViewingPlayerController()->SetShowMouseCursor(true);
+	UGameplayStatics::SetGamePaused(GetWorld(),true);
+	GetLocalViewingPlayerController()->SetShowMouseCursor(true);
 
 	
 }
@@ -85,6 +95,7 @@ void ACours7NovCharacter::BeginPlay()
 void ACours7NovCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	
 	if (!isInspecting)
 	{
 		
@@ -111,11 +122,18 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 			{
 				PlayerUi->SetPromptE(true,"Press E To Remove");
 			}
+			if (IsValid(HitActor) && Cast<ASkull>(HitActor))
+			{
+				PlayerUi->SetPromptE(true,"Press E To Inspect The Strange Skull");
+				CurrentInspectingActor = HitActor;
+			}
+			
 		}
 		else
 		{
 			PlayerUi->SetPromptE(false,"");
 			HitActor = nullptr;
+			CurrentInspectingActor = nullptr;
 		}
 	}
 }
@@ -142,13 +160,26 @@ void ACours7NovCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 		//Pick Up Object
 		EnhancedInputComponent->BindAction(PickUpAction,ETriggerEvent::Triggered,this, &ACours7NovCharacter::PickupFunction);
+		
 		//Change View
 		EnhancedInputComponent->BindAction(ChangeView,ETriggerEvent::Triggered,this, &ACours7NovCharacter::ChangeViewFunction);
+		
+		//Rotate Object
+		EnhancedInputComponent->BindAction(RotateInspect, ETriggerEvent::Triggered, this, &ACours7NovCharacter::RotateInspectObj);
+
+		//Exit Inspect Mode
+		EnhancedInputComponent->BindAction(ExitInspect, ETriggerEvent::Triggered, this, &ACours7NovCharacter::ExitingInspectMode);
 	}
 	else
 	{
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
+}
+
+void ACours7NovCharacter::RemoveIntro()
+{
+	GetLocalViewingPlayerController()->SetShowMouseCursor(false);
+	UGameplayStatics::SetGamePaused(GetWorld(),false);
 }
 
 
@@ -157,7 +188,7 @@ void ACours7NovCharacter::Move(const FInputActionValue& Value)
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
-	if (Controller != nullptr && !isSolving)
+	if (Controller != nullptr )
 	{
 		// add movement 
 		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
@@ -170,11 +201,22 @@ void ACours7NovCharacter::Look(const FInputActionValue& Value)
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
-	if (Controller != nullptr&& !isSolving)
+	if (Controller != nullptr)
 	{
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
+	}
+}
+
+void ACours7NovCharacter::RotateInspectObj(const FInputActionValue& Value)
+{
+	FVector2D LookAxisVector = Value.Get<FVector2D>();
+	//FRotator ObjRotator = CurrentInspectingActor->GetActorRotation();
+	FRotator LoRotator (LookAxisVector.Y,LookAxisVector.X,0.0f);
+	if (Controller != nullptr && CurrentInspectingActor)
+	{
+		CurrentInspectingActor->AddActorLocalRotation(LoRotator,false);
 	}
 }
 
@@ -199,24 +241,17 @@ void ACours7NovCharacter::PauseGame()
 
 void ACours7NovCharacter::PickupFunction()
 {
-	
-	switch (isSolving)
+
+
+	if (IsValid(HitActor)&&HitActor->GetName() == "BP_NUmLock_C_UAID_7C10C92358ABED3202_1186069007")
 	{
-	case false:
-		if (IsValid(HitActor)&&HitActor->GetName() == "BP_NUmLock_C_UAID_7C10C92358ABED3202_1186069007")
-		{
-			LockUi->SetVisibility(ESlateVisibility::Visible);
-			isSolving = true;
-			GetLocalViewingPlayerController()->SetShowMouseCursor(true);
-		}
-		break;
-	case true:
-		LockUi->SetVisibility(ESlateVisibility::Hidden);
-		isSolving = false;
-		GetLocalViewingPlayerController()->SetShowMouseCursor(false);
-		break;
-	
+		LockUi->SetVisibility(ESlateVisibility::Visible);
+		
+		GetLocalViewingPlayerController()->SetShowMouseCursor(true);
+		UGameplayStatics::SetGamePaused(GetWorld(),true);
 	}
+		
+	
 	if (IsValid(HitActor) && Cast<APrison_Key>(HitActor))
 	{
 		const auto attach = FAttachmentTransformRules::SnapToTargetIncludingScale;
@@ -230,11 +265,29 @@ void ACours7NovCharacter::PickupFunction()
 		Cast<APrison_Door>(HitActor)->OpenDoor(70);
 		key->Destroy();
 		hasKey = false;
+		PlayerUi->SetPromptQuest("Talk to the stranger");
 		UE_LOG(LogTemp, Warning, TEXT("Door open"));
 	}
 	if (IsValid(HitActor) && Cast<ACarpet>(HitActor))
 	{
 		HitActor->Destroy();
+	}
+	if (!isInspecting && CurrentInspectingActor)
+	{
+		isInspecting = true;
+		PlayerUi->SetPromptE(false,"");
+		InspectPoint->SetRelativeRotation(FRotator::ZeroRotator);
+		InitialInspectTrans = CurrentInspectingActor->GetActorTransform();
+		CurrentInspectingActor->AttachToComponent(InspectPoint,FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+
+		//Changement Context
+		const auto PlayerController = Cast<APlayerController>(GetController());
+		auto InputSys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+
+		InputSys->RemoveMappingContext(DefaultMC);
+		InputSys->AddMappingContext(InspectMC,0);
+		UE_LOG(LogTemp, Warning, TEXT("Inspect Mode"));
+		
 	}
 	
 }
@@ -263,7 +316,7 @@ void ACours7NovCharacter::ChangeViewFunction()
 		
 		FirstPersonCameraComponent->PostProcessBlendWeight = 1.0f;
 
-		UE_LOG(LogTemp, Warning, TEXT("Post-process settings applied to camera."));
+		
 	}else if (isChangeView == false)
 	{
 		FirstPersonCameraComponent->PostProcessSettings.FilmGrainIntensity = 0.0f;
@@ -271,4 +324,20 @@ void ACours7NovCharacter::ChangeViewFunction()
 		FirstPersonCameraComponent->PostProcessSettings.ColorContrast = UE::Math::TVector4<double>(1.0f,1.0f,1.0f,1.0f);
 	}
 
+}
+
+void ACours7NovCharacter::ExitingInspectMode()
+{
+	if (isInspecting)
+	{
+		isInspecting = false;
+		CurrentInspectingActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		CurrentInspectingActor->SetActorTransform(InitialInspectTrans);
+		CurrentInspectingActor = nullptr;
+		
+		const auto PlayerController = Cast<APlayerController>(GetController());
+		const auto InputSys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+		InputSys->RemoveMappingContext(InspectMC);
+		InputSys->AddMappingContext(DefaultMC,0);
+	}
 }

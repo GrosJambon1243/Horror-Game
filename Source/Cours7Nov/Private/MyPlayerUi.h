@@ -19,6 +19,6 @@ public:
 	void SetPromptE(bool visible, FString const& Text);
 	
 	UFUNCTION(BlueprintImplementableEvent)
-	void ModifyPrompt(int text);
+	void SetPromptQuest(FString const& Text);
 	
 };

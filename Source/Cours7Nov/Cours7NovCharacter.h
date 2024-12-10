@@ -37,12 +37,23 @@ class ACours7NovCharacter : public ACharacter
 	/** Move Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* MoveAction;
+	//Pause Action
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* PauseAction;
+	//Pick Up Action
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* PickUpAction;
+	//Changing View Action
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* ChangeView;
+	//Exit Inspect Mode
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* ExitInspect;
+	//Mapping Context
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputMappingContext* DefaultMC;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputMappingContext* InspectMC;
 	
 public:
 	ACours7NovCharacter();
@@ -56,6 +67,9 @@ public:
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
+	//Rotate Object
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* RotateInspect;
 
 protected:
 	/** Called for movement input */
@@ -64,9 +78,13 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
+	//Called For rotating object
+	void RotateInspectObj(const FInputActionValue& Value);
+
 	void PauseGame();
 	void PickupFunction();
 	void ChangeViewFunction();
+	void ExitingInspectMode();
 
 protected:
 	// APawn interface
@@ -80,19 +98,26 @@ public:
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 private:
 	bool isInspecting = false;
-	bool isSolving = false;
 	bool isChangeView = false;
 	bool hasKey = false;
+
 	class UMyPlayerUi* PlayerUi;
 	class UPauseMenu* PauseUi;
 	class ULockUi* LockUi;
 	class UMainMenu* MainMenuUi;
+	class UGameIntro* IntroWidgetUi;
 	FHitResult Hit;
 	AActor* HitActor;
 	AActor* key;
+	AActor* CurrentInspectingActor;
+
+	FTransform InitialInspectTrans;
+	
 
 	UPROPERTY(EditAnywhere)
 	USceneComponent* AttachPoint;
+	UPROPERTY(EditAnywhere)
+	USceneComponent* InspectPoint;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> PlayerWidgetClass;
@@ -102,9 +127,11 @@ private:
 	TSubclassOf<UUserWidget> LockUiWidgetClass;
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> MainMenuWidgetClass;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> IntroWidgetClass;
 
-	
-	
+public:
+	void RemoveIntro();
 	
 
 };

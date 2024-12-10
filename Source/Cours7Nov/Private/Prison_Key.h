@@ -23,7 +23,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	virtual bool isPickable() override;
+	
 private:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* SceneRoot;

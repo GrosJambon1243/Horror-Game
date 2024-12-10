@@ -57,3 +57,13 @@ Z
 *Source/Cours7Nov/Private/PickupInterface.h,9\d\9d585ef79b9dd12c4c36ac9db402f054cda68786
 L
 Source/Cours7Nov/Cours7Nov.h,3\e\3e7088179b80189e7fcab7c8678f3cd3764339d0
+N
+Source/Cours7Nov/Cours7Nov.cpp,d\6\d6fa69810e21791bf761f0181e7107fe3e66ad0d
+P
+ Source/Cours7Nov/Private/Skull.h,6\d\6d9dcea2d5dcf7c94e0822e0cb05e32e82723a8f
+R
+"Source/Cours7Nov/Private/Skull.cpp,3\d\3d3b817c1341a89ec6c5f75ff74b1b994d4b6a3a
+V
+&Source/Cours7Nov/Private/GameIntro.cpp,7\4\745d34940e4a21d0d14a55600779f1c14d43f979
+T
+$Source/Cours7Nov/Private/GameIntro.h,3\5\35cf50d7895adb29f46cce248bba4e3391177832

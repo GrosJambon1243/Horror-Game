@@ -39,9 +39,6 @@ void APrison_Key::Tick(float DeltaTime)
 
 }
 
-bool APrison_Key::isPickable()
-{
-	return true;
-}
+
 
 
