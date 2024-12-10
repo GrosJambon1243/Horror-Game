@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "PickupInterface.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/TextRenderComponent.h"
 #include "GameFramework/Actor.h"
 #include "Skull.generated.h"
 
@@ -30,5 +31,10 @@ public:
 	UStaticMeshComponent* Skull;
 	UPROPERTY(VisibleAnywhere)
 	UCapsuleComponent* Collider;
+	UPROPERTY(VisibleAnywhere)
+	UTextRenderComponent* Number;
+	
+	UPROPERTY(EditAnywhere)
+	FText NumberValue;
 
 };

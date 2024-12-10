@@ -14,6 +14,8 @@ ASkull::ASkull()
 	Skull-> SetupAttachment(SceneRoot);
 	Collider = CreateDefaultSubobject<UCapsuleComponent>("Collider");
 	Collider ->SetupAttachment(Skull);
+	Number = CreateDefaultSubobject<UTextRenderComponent>("Number");
+	Number->SetupAttachment(Skull);
 
 }
 

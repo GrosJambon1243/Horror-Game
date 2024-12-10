@@ -22,12 +22,20 @@ public:
 	USlider* MouseSlider;
 	UPROPERTY(meta=(BindWidget))
 	class UButton* ContinueButton;
+	UPROPERTY(meta=(BindWidget))
+	USlider* MusicSlider;
 
 	UFUNCTION()
 	void OnSliderValueChanged(float value);
 	UFUNCTION()
+	void OnMusicSliderValueChanged(float value);
+	UFUNCTION()
 	void OnClicked();
 
 	APlayerController* PlayerController;
+	
+	class AMusicManager* MusicManager;
+
+	
 	
 };

@@ -3,6 +3,7 @@
 
 #include "PauseMenu.h"
 
+#include "MusicManager.h"
 #include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -10,10 +11,16 @@ void UPauseMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
 	PlayerController = GetOwningPlayer();
-
+	
+	MusicManager = Cast<AMusicManager>(UGameplayStatics::GetActorOfClass(GetWorld(),AMusicManager::StaticClass()));
+	
 	if (MouseSlider)
 	{
 		MouseSlider->OnValueChanged.AddDynamic(this,&UPauseMenu::OnSliderValueChanged);
+	}
+	if (MusicSlider)
+	{
+		MusicSlider ->OnValueChanged.AddDynamic(this,&UPauseMenu::OnMusicSliderValueChanged);
 	}
 	if (ContinueButton)
 	{
@@ -23,12 +30,27 @@ void UPauseMenu::NativeConstruct()
 
 void UPauseMenu::OnSliderValueChanged(float value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Slider Value Changed: %f"), value);
+	
 	if (PlayerController)
 	{
 		PlayerController->InputYawScale_DEPRECATED = value;
 		PlayerController->InputPitchScale_DEPRECATED = -value;
 	}
+}
+
+void UPauseMenu::OnMusicSliderValueChanged(float value)
+{
+	if (MusicManager)
+	{
+		MusicManager->AdjustVolume(value);
+		
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Slider Value Not"));
+	}
+	
+	
 }
 
 void UPauseMenu::OnClicked()
