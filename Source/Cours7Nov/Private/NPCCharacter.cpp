@@ -2,19 +2,26 @@
 
 
 #include "NPCCharacter.h"
+#include "NpcDialogue.h"
+#include "Components/TextRenderComponent.h"
 
 // Sets default values
 ANPCCharacter::ANPCCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	//PrimaryActorTick.bCanEverTick = true;
+	Dialogue = CreateDefaultSubobject<UTextRenderComponent>("TextComp");
+	Dialogue->SetupAttachment(RootComponent);
+	
 }
 
 // Called when the game starts or when spawned
 void ANPCCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	DialogueRowHandle.DataTable->GetAllRows("",AllDialo);
+	Dialogue->SetText(AllDialo[0]->DialogueText);
+	maxTimer = timer;
 	
 }
 
@@ -22,6 +29,21 @@ void ANPCCharacter::BeginPlay()
 void ANPCCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (timer<= maxTimer)
+	{
+		timer -= DeltaTime;
+		if (timer<=0)
+		{
+			index++;
+			Dialogue->SetText(AllDialo[index]->DialogueText);
+			timer = maxTimer;
+			if (index == AllDialo.Num()-1)
+			{
+				Dialogue->SetText(lastMess);
+				timer = maxTimer*2;
+			}
+		}
+	}
 
 }
 
@@ -39,5 +61,6 @@ void ANPCCharacter::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimi
 
 	//Faire Jouer montage
 	GetMesh()->GetAnimInstance()->Montage_Play(HitAnimMontage);
+	
 }
 

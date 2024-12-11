@@ -21,6 +21,7 @@
 #include "Prison_Door.h"
 #include "Carpet.h"
 #include "GameIntro.h"
+#include "Plateforme.h"
 #include "Skull.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -82,6 +83,13 @@ void ACours7NovCharacter::BeginPlay()
 	
 	InitialPlayerPos = AttachPoint->GetComponentTransform();
 	key = nullptr;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(),APlateforme::StaticClass(),OutActors);
+	for (AActor* a : OutActors)
+	{
+		Plateformess.Push(Cast<APlateforme>(a));
+	}
+	
+	
 	
 	//MainMenuUi->AddToViewport();
 
@@ -109,6 +117,7 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 
 		if (GetWorld()->LineTraceSingleByObjectType(Hit,Start,End,QueryParams,Params))
 		{
+			
 			HitActor = Hit.GetActor();
 			if (IsValid(HitActor) && HitActor->Implements<UPickupInterface>())
 			{
@@ -127,6 +136,7 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 				PlayerUi->SetPromptE(true,"Press E To Inspect The Strange Skull");
 				CurrentInspectingActor = HitActor;
 			}
+			
 			
 		}
 		else
@@ -319,10 +329,8 @@ void ACours7NovCharacter::ChangeViewFunction()
 		FirstPersonCameraComponent->PostProcessSettings.ColorContrast = vector;
 		FirstPersonCameraComponent->PostProcessSettings.FilmGrainIntensity = 1.0f;
 		FirstPersonCameraComponent->PostProcessSettings.SceneFringeIntensity = 3.0f;
-		
-		
 		FirstPersonCameraComponent->PostProcessBlendWeight = 1.0f;
-
+		Plateformess[1]->hidePlatforme(isChangeView);
 		
 	}else if (isChangeView == false)
 	{
@@ -330,6 +338,10 @@ void ACours7NovCharacter::ChangeViewFunction()
 		FirstPersonCameraComponent->PostProcessSettings.SceneFringeIntensity = 0.0f;
 		FirstPersonCameraComponent->PostProcessSettings.ColorContrast = UE::Math::TVector4<double>(1.0f,1.0f,1.0f,1.0f);
 	}
+	Plateformess[1]->hidePlatforme(isChangeView);
+	Plateformess[2]->hidePlatforme(isChangeView);
+	Plateformess[3]->hidePlatforme(isChangeView);
+	Plateformess[4]->hidePlatforme(isChangeView);
 
 }
 

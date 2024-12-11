@@ -3,6 +3,9 @@
 
 #include "Torche.h"
 
+#include "Components/PointLightComponent.h"
+#include "NiagaraComponent.h"
+
 // Sets default values
 ATorche::ATorche()
 {

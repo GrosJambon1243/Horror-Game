@@ -71,3 +71,11 @@ W
 'Source/Cours7Nov/Private/MusicManager.h,8\4\8477e55e503e2cc45e758bacf26ff38f23599a1a
 Y
 )Source/Cours7Nov/Private/MusicManager.cpp,6\5\656bef634a51367613ddba456a4aab326179eadc
+Q
+!Source/Cours7Nov/Private/Torche.h,0\6\062a6cfb8eb5618f81b0f3d0d2e27ad9b562b11c
+S
+#Source/Cours7Nov/Private/Torche.cpp,c\3\c34ee8affe8acb16f9a93b466b23663ba41d25de
+U
+%Source/Cours7Nov/Private/Plateforme.h,0\8\08a01d049ac18d2733b88424066e554dd512c9ea
+W
+'Source/Cours7Nov/Private/Plateforme.cpp,5\9\59e9877ec3e71eb623c23abae05ad9a10f368154

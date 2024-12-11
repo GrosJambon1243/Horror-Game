@@ -118,6 +118,7 @@ private:
 	USceneComponent* AttachPoint;
 	UPROPERTY(EditAnywhere)
 	USceneComponent* InspectPoint;
+	
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> PlayerWidgetClass;
@@ -133,6 +134,10 @@ private:
 public:
 	void RemoveIntro();
 	bool isChangeView = false;
+	FString printName;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	TArray<class APlateforme*> Plateformess;
+	TArray<AActor*> OutActors;
 	
 
 };

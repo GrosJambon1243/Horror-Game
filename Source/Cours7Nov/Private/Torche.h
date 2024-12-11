@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/PointLightComponent.h"
+
 #include "GameFramework/Actor.h"
-#include "NiagaraComponent.h"
-#include "NiagaraFunctionLibrary.h"
+
+
 #include "Torche.generated.h"
 
 
@@ -32,8 +32,8 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* TorcheBody;
 	UPROPERTY(VisibleAnywhere)
-	UPointLightComponent* Light;
+	class UPointLightComponent* Light;
 	UPROPERTY(VisibleAnywhere)
-	UNiagaraComponent* Fire;
+	class UNiagaraComponent* Fire;
 
 };

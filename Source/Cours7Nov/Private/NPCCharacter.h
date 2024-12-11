@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "NPCCharacter.generated.h"
+struct FNpcDialogueData;
+class UTextRenderComponent;
+
 
 UCLASS()
 class ANPCCharacter : public ACharacter
@@ -29,5 +32,16 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UAnimMontage> HitAnimMontage;
+	UPROPERTY(VisibleAnywhere)
+	UTextRenderComponent* Dialogue;
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	FDataTableRowHandle DialogueRowHandle;
+
+	TArray<FNpcDialogueData*> AllDialo;
+	int index = 0;
+	float timer = 10.0f;
+	float maxTimer;
+	FText lastMess = FText::FromString(TEXT("Good luck....(Press 1 to use your ability)"));
+	
 	
 };
