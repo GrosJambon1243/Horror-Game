@@ -35,7 +35,7 @@ void UGameIntro::OnNextClick()
 		}
 		TextSpace->SetText(DialogueDatas[index]->DialogueText);
 		
-		UE_LOG(LogTemp, Warning, TEXT("%i"), index);
+		
 	}
 	
 
@@ -52,7 +52,7 @@ void UGameIntro::OnPreviousClick()
 		}
 		TextSpace->SetText(DialogueDatas[index]->DialogueText);
 		
-		UE_LOG(LogTemp, Warning, TEXT("%i"), index);
+		
 	}
 	
 	
@@ -65,9 +65,6 @@ void UGameIntro::OnSkipClick()
 	{
 		Cast<ACours7NovCharacter>(ThePLayer)->RemoveIntro();
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Pas Lol"));
-	}
+	
 	this->SetVisibility(ESlateVisibility::Hidden);
 }

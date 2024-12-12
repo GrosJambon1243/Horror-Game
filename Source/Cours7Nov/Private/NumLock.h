@@ -31,7 +31,5 @@ public:
 	UStaticMeshComponent* Chest;
 	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* Collision;
-	
-	
 
 };

@@ -24,7 +24,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void OpenDoor(float Rotate) const;
+	bool OpenDoor;
+	float time = 0;
+	float lerpValue = 0;
 	
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -37,7 +39,6 @@ private:
 	UStaticMeshComponent* Hinge1;
 	UPROPERTY(VisibleAnywhere);
 	UStaticMeshComponent* Hinge2;
-
 	
 	
 

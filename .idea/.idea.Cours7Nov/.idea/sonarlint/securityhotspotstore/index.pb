@@ -79,3 +79,13 @@ U
 %Source/Cours7Nov/Private/Plateforme.h,0\8\08a01d049ac18d2733b88424066e554dd512c9ea
 W
 'Source/Cours7Nov/Private/Plateforme.cpp,5\9\59e9877ec3e71eb623c23abae05ad9a10f368154
+U
+%Source/Cours7Nov/Public/NpcDialogue.h,b\9\b9794ea8ef05a093553567527432477dcb269e8e
+P
+ Source/Cours7Nov/Private/Lever.h,9\4\94a6620a173e18d8644e8061109d4b072421a035
+W
+'Source/Cours7Nov/Private/WoodenDoor.cpp,b\a\ba9fe698032b8af95761d09f631dc64166231a63
+R
+"Source/Cours7Nov/Private/Lever.cpp,a\e\aee05cc6796250f9199e7bbb67f9a461e24c6d60
+U
+%Source/Cours7Nov/Private/WoodenDoor.h,a\6\a6e38d75bd7b82e5c347c70cb59a621c31d6c151

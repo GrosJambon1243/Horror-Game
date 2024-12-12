@@ -25,12 +25,40 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
 	USoundBase* BackgroundMusic;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	USoundBase* KeySfx;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	USoundBase* DoorSfx;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	USoundBase* LeverSfx;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	USoundBase* PowerSfx;
 
 	UAudioComponent* AudioComponent;
+
+	UAudioComponent* KeyAudioComponent;
+
+	UAudioComponent* DoorAudioComponent;
+
+	UAudioComponent* LeverAudioComponent;
+	
+	UAudioComponent* PowerAudioComponent;
 	
 	UPROPERTY(EditAnywhere)
 	USceneComponent* SceneRoot;
 
 	void AdjustVolume(float volume);
+	
+	void AdjustSfx(float volume);
+
+	void PlayKeySfx();
+
+	void PlayDoorSfx();
+
+	void PlayLeverSfx();
+
+	void PlayPowerSfx();
+
+	float sfxVolume = 0.5f;
 
 };

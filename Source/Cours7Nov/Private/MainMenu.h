@@ -13,5 +13,14 @@ UCLASS()
 class UMainMenu : public UUserWidget
 {
 	GENERATED_BODY()
+	virtual void NativeConstruct() override;
+	UPROPERTY(meta=(BindWidget))
+	class UButton* Quit;
+	UPROPERTY(meta=(BindWidget))
+	class UButton* Start;
+	UFUNCTION()
+	void EndGame();
+	UFUNCTION()
+	void StartGame();
 	
 };

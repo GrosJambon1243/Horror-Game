@@ -14,18 +14,11 @@ void UPauseMenu::NativeConstruct()
 	
 	MusicManager = Cast<AMusicManager>(UGameplayStatics::GetActorOfClass(GetWorld(),AMusicManager::StaticClass()));
 	
-	if (MouseSlider)
-	{
-		MouseSlider->OnValueChanged.AddDynamic(this,&UPauseMenu::OnSliderValueChanged);
-	}
-	if (MusicSlider)
-	{
-		MusicSlider ->OnValueChanged.AddDynamic(this,&UPauseMenu::OnMusicSliderValueChanged);
-	}
-	if (ContinueButton)
-	{
-		ContinueButton->OnClicked.AddDynamic(this,&UPauseMenu::OnClicked);
-	}
+	MouseSlider->OnValueChanged.AddDynamic(this,&UPauseMenu::OnSliderValueChanged);
+	MusicSlider ->OnValueChanged.AddDynamic(this,&UPauseMenu::OnMusicSliderValueChanged);
+	ContinueButton->OnClicked.AddDynamic(this,&UPauseMenu::OnClicked);
+	QuitButton->OnClicked.AddDynamic(this,&UPauseMenu::Quit);
+	
 }
 
 void UPauseMenu::OnSliderValueChanged(float value)
@@ -45,12 +38,6 @@ void UPauseMenu::OnMusicSliderValueChanged(float value)
 		MusicManager->AdjustVolume(value);
 		
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Slider Value Not"));
-	}
-	
-	
 }
 
 void UPauseMenu::OnClicked()
@@ -59,4 +46,10 @@ void UPauseMenu::OnClicked()
 	this->SetVisibility(ESlateVisibility::Hidden);
 	GetOwningPlayer()->SetShowMouseCursor(false);
 	UE_LOG(LogTemp, Warning, TEXT("Continue"));
+}
+
+void UPauseMenu::Quit()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Slider Value Not"));
+	UKismetSystemLibrary::QuitGame(this,nullptr,EQuitPreference::Quit,false);
 }

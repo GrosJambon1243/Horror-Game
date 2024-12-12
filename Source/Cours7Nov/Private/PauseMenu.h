@@ -23,6 +23,8 @@ public:
 	UPROPERTY(meta=(BindWidget))
 	class UButton* ContinueButton;
 	UPROPERTY(meta=(BindWidget))
+	class UButton* QuitButton;
+	UPROPERTY(meta=(BindWidget))
 	USlider* MusicSlider;
 
 	UFUNCTION()
@@ -31,6 +33,9 @@ public:
 	void OnMusicSliderValueChanged(float value);
 	UFUNCTION()
 	void OnClicked();
+
+	UFUNCTION()
+	void Quit();
 
 	APlayerController* PlayerController;
 	

@@ -94,9 +94,9 @@ void ULockUi::OnClickDonw2()
 
 void ULockUi::OnUnlock()
 {
-	if (firstNum == 7 && secNum == 3 && thirdNum == 9)
+	if (firstNum == 7 && secNum == 3 && thirdNum == 8)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Unlock"));
+		Cast<ACours7NovCharacter>(ThePLayer)->chestUnlock = true;
 	}
 	else
 	{
@@ -110,6 +110,11 @@ void ULockUi::OnClose()
 	{
 		Cast<ACours7NovCharacter>(ThePLayer)->RemoveIntro();
 		this->SetVisibility(ESlateVisibility::Hidden);
+		if (Cast<ACours7NovCharacter>(ThePLayer)->chestUnlock == true)
+		{
+			Cast<ACours7NovCharacter>(ThePLayer)->SetPlayerQuest("You've acquired an oar, you can now escape this island");
+		}
+		
 	}
 	else
 	{

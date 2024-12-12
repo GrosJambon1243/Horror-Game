@@ -21,8 +21,12 @@
 #include "Prison_Door.h"
 #include "Carpet.h"
 #include "GameIntro.h"
+#include "MusicManager.h"
 #include "Plateforme.h"
+#include "Lever.h"
 #include "Skull.h"
+#include "Boat.h"
+#include "EndGame.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -80,6 +84,11 @@ void ACours7NovCharacter::BeginPlay()
 	auto IntroWidget = CreateWidget(GetWorld(),IntroWidgetClass);
 	IntroWidgetUi = Cast<UGameIntro>(IntroWidget);
 	IntroWidgetUi ->AddToViewport();
+
+	auto EndGameWidget = CreateWidget(GetWorld(),EndGameWidgetClass);
+	EndGameUi = Cast<UEndGame>(EndGameWidget);
+	EndGameUi ->AddToViewport();
+	EndGameUi->SetVisibility(ESlateVisibility::Hidden);
 	
 	InitialPlayerPos = AttachPoint->GetComponentTransform();
 	key = nullptr;
@@ -88,10 +97,10 @@ void ACours7NovCharacter::BeginPlay()
 	{
 		Plateformess.Push(Cast<APlateforme>(a));
 	}
+	MusicManager = Cast<AMusicManager>(UGameplayStatics::GetActorOfClass(GetWorld(),AMusicManager::StaticClass()));
 	
 	
-	
-	//MainMenuUi->AddToViewport();
+	MainMenuUi->AddToViewport();
 
 	//Uncomment pour test le main menu
 	UGameplayStatics::SetGamePaused(GetWorld(),true);
@@ -136,7 +145,10 @@ void ACours7NovCharacter::Tick(float DeltaSeconds)
 				PlayerUi->SetPromptE(true,"Press E To Inspect The Strange Skull");
 				CurrentInspectingActor = HitActor;
 			}
-			
+			if (IsValid(HitActor) && Cast<ABoat>(HitActor))
+			{
+				PlayerUi->SetPromptE(true,"Press E To Escape");
+			}
 			
 		}
 		else
@@ -195,6 +207,11 @@ void ACours7NovCharacter::RemoveIntro()
 {
 	GetLocalViewingPlayerController()->SetShowMouseCursor(false);
 	UGameplayStatics::SetGamePaused(GetWorld(),false);
+}
+
+void ACours7NovCharacter::SetPlayerQuest(FString text)
+{
+	PlayerUi->SetPromptQuest(text);
 }
 
 
@@ -256,12 +273,19 @@ void ACours7NovCharacter::PauseGame()
 
 void ACours7NovCharacter::PickupFunction()
 {
-
+	if (IsValid(HitActor) && Cast<ABoat>(HitActor) && chestUnlock)
+	{
+		EndGameUi->SetVisibility(ESlateVisibility::Visible);
+		UGameplayStatics::SetGamePaused(GetWorld(),true);
+		GetLocalViewingPlayerController()->SetShowMouseCursor(true);
+	}
 
 	if (IsValid(HitActor)&&HitActor->GetName() == "BP_NUmLock_C_UAID_7C10C92358ABED3202_1186069007")
 	{
+		SetPlayerQuest("Look for the strange skulls");
 		LockUi->SetVisibility(ESlateVisibility::Visible);
-		
+		MusicManager->PlayKeySfx();
+		InitialPlayerPos = AttachPoint->GetComponentTransform();
 		GetLocalViewingPlayerController()->SetShowMouseCursor(true);
 		UGameplayStatics::SetGamePaused(GetWorld(),true);
 	}
@@ -270,25 +294,35 @@ void ACours7NovCharacter::PickupFunction()
 	if (IsValid(HitActor) && Cast<APrison_Key>(HitActor))
 	{
 		const auto attach = FAttachmentTransformRules::SnapToTargetIncludingScale;
+		MusicManager->PlayKeySfx();
 		key = HitActor;
 		key->AttachToComponent(AttachPoint,attach);
 		hasKey = true;
-		UE_LOG(LogTemp, Warning, TEXT("Key PickUp"));
+		
+	}
+	if (IsValid(HitActor) && Cast<ALever>(HitActor))
+	{
+		MusicManager->PlayKeySfx();
+		Cast<ALever>(HitActor)->LeverActive();
 	}
 	if (IsValid(HitActor) && Cast<APrison_Door>(HitActor) && hasKey)
 	{
-		Cast<APrison_Door>(HitActor)->OpenDoor(70);
+		Cast<APrison_Door>(HitActor)->OpenDoor = true;
+		MusicManager->PlayDoorSfx();
 		key->Destroy();
 		hasKey = false;
-		PlayerUi->SetPromptQuest("Talk to the stranger");
+		SetPlayerQuest("Listen to the stranger");
 		UE_LOG(LogTemp, Warning, TEXT("Door open"));
 	}
 	if (IsValid(HitActor) && Cast<ACarpet>(HitActor))
 	{
 		HitActor->Destroy();
+		MusicManager->PlayKeySfx();
 	}
 	if (!isInspecting && CurrentInspectingActor)
 	{
+		SetPlayerQuest("Look for the strange skulls");
+		MusicManager->PlayKeySfx();
 		InitialPlayerPos = AttachPoint->GetComponentTransform();
 		isInspecting = true;
 		PlayerUi->SetPromptE(false,"");
@@ -312,6 +346,7 @@ void ACours7NovCharacter::PickupFunction()
 void ACours7NovCharacter::ChangeViewFunction()
 {
 	GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Red,TEXT("View Changed"));
+	MusicManager->PlayPowerSfx();
 	if (isChangeView)
 	{
 		isChangeView = false;

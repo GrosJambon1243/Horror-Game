@@ -36,12 +36,17 @@ void APrison_Door::BeginPlay()
 void APrison_Door::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (OpenDoor && lerpValue <=70)
+	{
+		time += DeltaTime;
+		lerpValue = FMath::Lerp(0.0f,25*time,1.0f);
+		RotatingPoint->SetWorldRotation(FRotator (0,lerpValue,0),true);
+		
+		
+	}
 }
 
-void APrison_Door::OpenDoor(float Rotate) const
-{
-	RotatingPoint->SetWorldRotation(FRotator (0,Rotate,0),true);
-}
+
+
 
 

@@ -40,7 +40,7 @@ public:
 	TArray<FNpcDialogueData*> AllDialo;
 	int index = 0;
 	float timer = 10.0f;
-	float maxTimer;
+	float maxTimer = 0.0f;
 	FText lastMess = FText::FromString(TEXT("Good luck....(Press 1 to use your ability)"));
 	
 	

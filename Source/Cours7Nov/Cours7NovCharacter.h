@@ -105,6 +105,7 @@ private:
 	class ULockUi* LockUi;
 	class UMainMenu* MainMenuUi;
 	class UGameIntro* IntroWidgetUi;
+	class UEndGame* EndGameUi;
 	FHitResult Hit;
 	AActor* HitActor;
 	AActor* key;
@@ -112,6 +113,7 @@ private:
 
 	FTransform InitialInspectTrans;
 	FTransform InitialPlayerPos;
+	class AMusicManager* MusicManager;
 	
 
 	UPROPERTY(EditAnywhere)
@@ -130,6 +132,8 @@ private:
 	TSubclassOf<UUserWidget> MainMenuWidgetClass;
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> IntroWidgetClass;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> EndGameWidgetClass;
 
 public:
 	void RemoveIntro();
@@ -138,6 +142,8 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	TArray<class APlateforme*> Plateformess;
 	TArray<AActor*> OutActors;
+	bool chestUnlock;
+	void SetPlayerQuest(FString text);
 	
 
 };

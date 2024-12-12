@@ -32,6 +32,47 @@ void AMusicManager::BeginPlay()
 		AudioComponent->SetVolumeMultiplier(0.2f);
 		AudioComponent->Play();
 	}
+	if (KeySfx)
+	{
+		if (!KeyAudioComponent)
+		{
+			KeyAudioComponent = NewObject<UAudioComponent>(this);
+			KeyAudioComponent ->RegisterComponent();
+		}
+		KeyAudioComponent->SetSound(KeySfx);
+		KeyAudioComponent->SetVolumeMultiplier(sfxVolume);
+	}
+	if (DoorSfx)
+	{
+		if (!DoorAudioComponent)
+		{
+			DoorAudioComponent = NewObject<UAudioComponent>(this);
+			DoorAudioComponent ->RegisterComponent();
+		}
+		DoorAudioComponent->SetSound(DoorSfx);
+		DoorAudioComponent->SetVolumeMultiplier(sfxVolume);
+	}
+	if (LeverSfx)
+	{
+		if (!LeverAudioComponent)
+		{
+			LeverAudioComponent = NewObject<UAudioComponent>(this);
+			LeverAudioComponent ->RegisterComponent();
+		}
+		LeverAudioComponent->SetSound(KeySfx);
+		LeverAudioComponent->SetVolumeMultiplier(sfxVolume);
+	}
+	if (PowerSfx)
+	{
+		if (!PowerAudioComponent)
+		{
+			PowerAudioComponent = NewObject<UAudioComponent>(this);
+			PowerAudioComponent ->RegisterComponent();
+			
+		}
+		PowerAudioComponent->SetSound(PowerSfx);
+		PowerAudioComponent->SetVolumeMultiplier(sfxVolume);
+	}
 	
 }
 
@@ -48,5 +89,35 @@ void AMusicManager::AdjustVolume(float volume)
 	{
 		AudioComponent->SetVolumeMultiplier(volume);
 	}
+}
+
+void AMusicManager::AdjustSfx(float volume)
+{
+	if (KeyAudioComponent && DoorAudioComponent && LeverAudioComponent)
+	{
+		KeyAudioComponent->SetVolumeMultiplier(volume);
+		DoorAudioComponent->SetVolumeMultiplier(volume);
+		LeverAudioComponent->SetVolumeMultiplier(volume);
+	}
+}
+
+void AMusicManager::PlayKeySfx()
+{
+	KeyAudioComponent->Play();
+}
+
+void AMusicManager::PlayDoorSfx()
+{
+	DoorAudioComponent->Play();
+}
+
+void AMusicManager::PlayLeverSfx()
+{
+	LeverAudioComponent->Play();
+}
+
+void AMusicManager::PlayPowerSfx()
+{
+	PowerAudioComponent->Play();
 }
 
