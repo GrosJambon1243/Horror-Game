@@ -2,7 +2,12 @@
 > **Horror/Puzzle game**  
 
 ---
+## 🔧 **Technologies Used**  
+![Unreal Engine](https://img.shields.io/badge/Engine-Unreal%20Engine-0E1128?style=for-the-badge&logo=unrealengine)  
+![C++](https://img.shields.io/badge/Language-C%2B%2B-00599C?style=for-the-badge&logo=cplusplus)  
+![Blueprint](https://img.shields.io/badge/Language-Blueprints-2B5780?style=for-the-badge&logo=unrealengine) 
 
+---
 ## 📸 Screenshots  
 
 ### **Starting Area**  
